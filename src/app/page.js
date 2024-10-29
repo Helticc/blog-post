@@ -1,95 +1,68 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'
 
-export default function Home() {
+import { useRouter } from "next/navigation";
+import Items from "../component/Items";
+import { useEffect, useState } from "react";
+
+const Page = () => {
+  const [ blog, setBlog ] = useState([]);
+  const [ page, setPage ] = useState(1);
+  const router = useRouter();
+
+  const fetchData = async () => {
+    const rawData = await fetch(`https://dev.to/api/articles?per_page=9&page=${page}`);
+    const data = await rawData.json();
+    setBlog(data);
+  }
+  console.log(blog);
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    router.push('/Page1')
+  }
+
+  const handleInputValue = () => {
+    setPage(page + 1);
+    console.log(page)
+  }
+
+  const handleInputValueNegative = () => {
+    setPage(page - 1)
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [page]);
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+    <div>
+      <div className="navbar">
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" className="icon"/>
+        <div className="nav-stuff">
+          <div className="nav-about-us">About Us</div>
+          <div className="nav-contact">Contact</div>
+          <img src="https://www.svgrepo.com/show/343494/profile-user-account.svg" className="user-icon" onClick={handleClick}/>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
+        <div className="page-center">
+          {blog.map((item, index) => {
+            return (
+              <div>
+                <div key={index}>
+                <Items data={item} />
+                </div>
+              </div>
+            )
+          })}
+      </div>
+      <div className="newPageContainer">
+        <img src="https://www.svgrepo.com/show/67833/left-arrow.svg" className="back-arrow" onClick={handleInputValueNegative}/>
+        <div className="newPageNumber">{page}</div>
+        <img src="https://www.svgrepo.com/show/27797/right-arrow.svg" className="next-arrow" onClick={handleInputValue}/>
+      </div>
     </div>
-  );
+    
+  )
 }
+
+export default Page;
