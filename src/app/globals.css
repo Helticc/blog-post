@@ -2,12 +2,16 @@
   padding: 0;
   margin: 0;
   font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f9f9f9;
 }
 
 .page-center {
   display: flex;
   justify-content: center;
-  width: 1600px;
   margin: auto;
   flex-wrap: wrap;
 }
@@ -87,11 +91,7 @@
   font-size: 15px;
 }
 
-.next-arrow {
-  height: 50px;
-  width: 50px;
-}
-
+.next-arrow,
 .back-arrow {
   height: 50px;
   width: 50px;
@@ -111,15 +111,19 @@
 }
 
 .navbar {
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 100px;
   width: 100%;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, .03);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.03);
+  background-color: white;
+  z-index: 1000;
+  padding: 0 20px;
 }
 
-.nav-stuff {
+/* .nav-stuff {
   display: flex;
   align-items: center;
   gap: 20px;
@@ -127,22 +131,36 @@
   width: 80px;
   margin-right: 200px;
   font-size: 20px;
+} */
+
+.nav-stuff {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: auto;
+  font-size: 20px;
+  margin-right: 1350px;
 }
 
 .nav-about-us {
-  width: 800px;
+  width: 100px;
   height: auto;
 }
 
 .icon {
   height: 80px;
   width: 80px;
-  margin-left: 40px;
+  margin-left: 50px;
 }
 
 .user-icon {
   height: 50px;
   width: 50px;
+  margin-right: 50px;
+}
+
+.nav-contact {
+  margin-right: 20px;
 }
 
 .display-flex {
